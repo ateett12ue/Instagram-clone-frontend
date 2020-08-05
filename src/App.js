@@ -6,6 +6,7 @@ import Home from './screens/Home'
 import Profile from './screens/Profile'
 import Signup from './screens/Signup'
 import Signin from './screens/Signin'
+import CreatePost from './screens/CreatePost'
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
     </Route>
     <Route path="/profile">
       <Profile/>
+    </Route>
+    <Route path="/create">
+      <CreatePost/>
     </Route>
 
     </BrowserRouter>

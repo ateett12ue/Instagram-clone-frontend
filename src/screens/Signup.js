@@ -9,8 +9,8 @@ export default function Signup() {
         <input type="text" placeholder="name"/>
         <input type="text" placeholder="email"/>
         <input type="text" placeholder="password"/>
-        <button className="btn waves-effect #2196f3 blue
- waves-light">
+        <button className="btn waves-effect #64b5f6 blue
+ waves-light darken-1">
             Signup
         </button>
         <h5>
