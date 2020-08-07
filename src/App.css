@@ -32,11 +32,13 @@ a{
 .gallery{
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: initial;
 }
 
 .item{
   width: 30%;
+  /* padding-bottom: 25px; */
+  margin: 8px
 }
 
 .home-card{
