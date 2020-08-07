@@ -6,19 +6,19 @@ const Navbar = () => {
   const renderList = () => {
     if (state) {
       return [
-        <li>
+        <li key="Profile">
           <Link to="/profile">Profile</Link>
         </li>,
-        <li>
+        <li key="CreatePost">
           <Link to="/create">Create Post</Link>
         </li>,
       ];
     } else {
       return [
-        <li>
+        <li key="SignIn">
           <Link to="/signin">Signin</Link>
         </li>,
-        <li>
+        <li key="SignUp">
           <Link to="/signup">SignUp</Link>
         </li>,
       ];
