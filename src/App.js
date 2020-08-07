@@ -1,34 +1,59 @@
-import React from 'react';
-import "./App.css"
-import NavBar from './components/Navbar'
-import {BrowserRouter,Route} from 'react-router-dom'
-import Home from './screens/Home'
-import Profile from './screens/Profile'
-import Signup from './screens/Signup'
-import Signin from './screens/Signin'
-import CreatePost from './screens/CreatePost'
+import React, { useEffect, createContext, useReducer, useContext } from "react";
+import "./App.css";
+import NavBar from "./components/Navbar";
+import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
+import Home from "./screens/Home";
+import Profile from "./screens/Profile";
+import Signup from "./screens/Signup";
+import Signin from "./screens/Signin";
+import CreatePost from "./screens/CreatePost";
+import { reducer, initialState } from "./reducers/userReducer";
+
+export const UserContext = createContext();
+
+const Routing = () => {
+  const history = useHistory();
+  const {state, dispatch} = useContext(UserContext)
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      dispatch({type:"USER", payload:user})
+      history.push("/");
+    } else {
+      history.push("/signin");
+    }
+  }, []);
+  return (
+    <Switch>
+      <Route exact path="/">
+        <Home />
+      </Route>
+      <Route path="/signup">
+        <Signup />
+      </Route>
+      <Route path="/signin">
+        <Signin />
+      </Route>
+      <Route path="/profile">
+        <Profile />
+      </Route>
+      <Route path="/create">
+        <CreatePost />
+      </Route>
+    </Switch>
+  );
+};
 
 function App() {
-  return (
-    <BrowserRouter>
-    <NavBar/>
-    <Route exact path="/">
-      <Home/>
-    </Route>
-    <Route path="/signup">
-      <Signup/>
-    </Route>
-    <Route path="/signin">
-      <Signin/>
-    </Route>
-    <Route path="/profile">
-      <Profile/>
-    </Route>
-    <Route path="/create">
-      <CreatePost/>
-    </Route>
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-    </BrowserRouter>
+  return (
+    <UserContext.Provider value={{ state, dispatch }}>
+      <BrowserRouter>
+        <NavBar />
+        <Routing />
+      </BrowserRouter>
+    </UserContext.Provider>
   );
 }
 
