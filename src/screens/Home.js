@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../App";
-import M from "materialize-css"
+import M from "materialize-css";
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -18,7 +18,6 @@ export default function Home() {
   }, []);
 
   const likePost = (id) => {
-    console.log(state);
     fetch("/like", {
       method: "put",
       headers: {
@@ -31,7 +30,7 @@ export default function Home() {
     })
       .then((res) => res.json())
       .then((result) => {
-        // console.log(result);
+        console.log("like", result);
         const newData = data.map((item) => {
           if (item._id == result._id) {
             return result;
@@ -59,6 +58,7 @@ export default function Home() {
     })
       .then((res) => res.json())
       .then((result) => {
+        console.log("unlike", result);
         const newData = data.map((item) => {
           if (item._id == result._id) {
             return result;
@@ -86,7 +86,7 @@ export default function Home() {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result)
+        console.log("comment", result);
         const newData = data.map((item) => {
           if (item._id == result._id) {
             return result;
@@ -100,12 +100,43 @@ export default function Home() {
         console.log(err);
       });
   };
+
+  const deletePost = (postId) => {
+    fetch(`/deletepost/${postId}`, {
+      method: "delete",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        const newData = data.filter(item=>{
+          return item._id !== result._id
+        })
+        setData(newData)
+      });
+  };
+
   return (
     <div className="home">
       {data.map((item) => {
         return (
           <div className="card home-card" key={item._id}>
-            <h5>{item.postedBy.name}</h5>
+            <h5>
+              {item.postedBy.name}
+              {item.postedBy._id == state.id && (
+                <i
+                  className="material-icons"
+                  style={{ cursor: "pointer", float: "right" }}
+                  onClick={() => {
+                    deletePost(item._id);
+                  }}
+                >
+                  delete
+                </i>
+              )}
+            </h5>
             <div className="card-image">
               <img src={item.photo} />
             </div>
@@ -141,18 +172,23 @@ export default function Home() {
                     <span style={{ fontWeight: "600" }}>
                       {record.postedBy.name}
                     </span>
-                {"  "}{record.text}
+                    {"  "}
+                    {record.text}
                   </h6>
                 );
               })}
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  if(e.target[0].value == ''){
-                    M.toast({html: "Please enter comment to submit", classes:"#c62828 red darken-3"})
+                  if (e.target[0].value == "") {
+                    M.toast({
+                      html: "Please enter comment to submit",
+                      classes: "#c62828 red darken-3",
+                    });
+                  } else {
+                    makeComment(e.target[0].value, item._id);
+                    e.target[0].value = ''
                   }
-                  else
-                  {makeComment(e.target[0].value, item._id);}
                 }}
               >
                 <input type="text" placeholder="add a comment" />
