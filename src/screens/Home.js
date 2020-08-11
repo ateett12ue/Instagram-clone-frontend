@@ -72,6 +72,7 @@ export default function Home() {
         console.log(err);
       });
   };
+
   const makeComment = (text, postId) => {
     fetch("/comment", {
       method: "put",
@@ -86,7 +87,7 @@ export default function Home() {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log("comment", result);
+        // console.log("comment", result);
         const newData = data.map((item) => {
           if (item._id == result._id) {
             return result;
@@ -110,11 +111,40 @@ export default function Home() {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
-        const newData = data.filter(item=>{
-          return item._id !== result._id
-        })
-        setData(newData)
+        // console.log(result);
+        const newData = data.filter((item) => {
+          return item._id !== result._id;
+        });
+        setData(newData);
+      });
+  };
+
+  const deleteComment = (postId, commentId) => {
+    fetch("/deleteComment", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        postId: postId,
+        commentId: commentId,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        // console.log("delete comment", result);
+        const newData = data.map((item) => {
+          if (item._id == result._id) {
+            return result;
+          } else {
+            return item;
+          }
+        });
+        setData(newData);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -174,6 +204,17 @@ export default function Home() {
                     </span>
                     {"  "}
                     {record.text}
+                    {record.postedBy._id == state.id && (
+                      <i
+                        className="material-icons"
+                        style={{ cursor: "pointer", float: "right" }}
+                        onClick={() => {
+                          deleteComment(item._id, record._id);
+                        }}
+                      >
+                        delete
+                      </i>
+                    )}
                   </h6>
                 );
               })}
@@ -187,7 +228,7 @@ export default function Home() {
                     });
                   } else {
                     makeComment(e.target[0].value, item._id);
-                    e.target[0].value = ''
+                    e.target[0].value = "";
                   }
                 }}
               >
