@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../App";
+import { Link } from "react-router-dom";
 import M from "materialize-css";
 
 export default function Home() {
@@ -154,7 +155,9 @@ export default function Home() {
         return (
           <div className="card home-card" key={item._id}>
             <h5>
-              {item.postedBy.name}
+              <Link to={item.postedBy._id != state.id ? "/profile/" + item.postedBy._id: "/profile" }>
+                {item.postedBy.name}
+              </Link>
               {item.postedBy._id == state.id && (
                 <i
                   className="material-icons"
