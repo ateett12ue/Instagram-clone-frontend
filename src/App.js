@@ -8,6 +8,7 @@ import Signup from "./screens/Signup";
 import Signin from "./screens/Signin";
 import CreatePost from "./screens/CreatePost";
 import UserProfile from "./screens/UserProfile";
+import HomePost from "./screens/HomePost"
 import { reducer, initialState } from "./reducers/userReducer";
 
 export const UserContext = createContext();
@@ -43,6 +44,9 @@ const Routing = () => {
       </Route>
       <Route path="/profile/:userid">
         <UserProfile />
+      </Route>
+      <Route path="/homepost">
+        <HomePost />
       </Route>
     </Switch>
   );

@@ -4,6 +4,7 @@ export default function Profile() {
   const [mypics, setpics] = useState([]);
   const { state, dispatch } = useContext(UserContext);
   useEffect(() => {
+    
     fetch("/mypost", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -21,6 +22,7 @@ export default function Profile() {
     }
     return splitStr.join(' '); 
  }
+ console.log(state)
   return (
     <div style={{ maxWidth: "550px", margin: "0px auto" }}>
       <div
@@ -34,7 +36,7 @@ export default function Profile() {
         <div>
           <img
             style={{ width: "160px", height: "160px", borderRadius: "80px" }}
-            src="https://images.unsplash.com/photo-1552158732-06dc1d835de0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1401&q=80"
+            src={state?state.pic:"no imgae"}
           />
         </div>
         <div>
@@ -46,9 +48,9 @@ export default function Profile() {
               width: "108%",
             }}
           >
-            <h6>40 Post</h6>
-            <h6>40 Followers</h6>
-            <h6>40 Following</h6>
+            <h6>{mypics.length} Post</h6>
+            <h6>{state? state.followers.length : "NA"} Followers</h6>
+            <h6>{state? state.following.length: "NA"} Following</h6>
           </div>
         </div>
       </div>

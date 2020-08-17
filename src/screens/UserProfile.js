@@ -4,10 +4,12 @@ import { useParams } from "react-router-dom";
 
 export default function Profile() {
   const [userProfile, setProfile] = useState(null);
-  const [showFollow, setShowFollow] = useState(true);
+  
   const { state, dispatch } = useContext(UserContext);
+  
   const { userid } = useParams();
 
+  const [showFollow, setShowFollow] = useState(state ? !state.following.includes(userid) : true);
   useEffect(() => {
     fetch(`/user/${userid}`, {
       headers: {
@@ -118,7 +120,7 @@ export default function Profile() {
                   height: "160px",
                   borderRadius: "80px",
                 }}
-                src="https://images.unsplash.com/photo-1552158732-06dc1d835de0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1401&q=80"
+                src={userProfile.user.pic}
               />
             </div>
             <div>

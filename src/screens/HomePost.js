@@ -3,11 +3,11 @@ import { UserContext } from "../App";
 import { Link } from "react-router-dom";
 import M from "materialize-css";
 
-export default function Home() {
+export default function HomePost() {
   const [data, setData] = useState([]);
   const { state, dispatch } = useContext(UserContext);
   useEffect(() => {
-    fetch("/allpost", {
+    fetch("/getsubpost", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
@@ -148,20 +148,15 @@ export default function Home() {
         console.log(err);
       });
   };
-  
+
   return (
     <div className="home">
       {data.map((item) => {
-        console.log("aas", item.postedBy)
         return (
           <div className="card home-card" key={item._id}>
             <h5>
               <Link to={item.postedBy._id != state._id ? "/profile/" + item.postedBy._id: "/profile" }>
-                {
-                <div style={{display:"flex", alignContent:"initial"}}>
-                  <img src={item.postedBy.pic} style={{width: "50px", height: "50px", borderRadius: "100px"}}/>
-                <h5>{item.postedBy.name}</h5>
-                </div>}
+                {item.postedBy.name}
               </Link>
               {item.postedBy._id == state._id && (
                 <i
