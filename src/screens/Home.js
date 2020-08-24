@@ -31,7 +31,7 @@ export default function Home() {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log("like", result);
+        
         const newData = data.map((item) => {
           if (item._id == result._id) {
             return result;
@@ -59,7 +59,7 @@ export default function Home() {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log("unlike", result);
+        
         const newData = data.map((item) => {
           if (item._id == result._id) {
             return result;
@@ -152,7 +152,7 @@ export default function Home() {
   return (
     <div className="home">
       {data.map((item) => {
-        console.log("aas", item.postedBy)
+        
         return (
           <div className="card home-card" key={item._id}>
             <h5>

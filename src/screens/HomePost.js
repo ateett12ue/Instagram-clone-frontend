@@ -31,7 +31,7 @@ export default function HomePost() {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log("like", result);
+        
         const newData = data.map((item) => {
           if (item._id == result._id) {
             return result;
@@ -59,7 +59,7 @@ export default function HomePost() {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log("unlike", result);
+        
         const newData = data.map((item) => {
           if (item._id == result._id) {
             return result;

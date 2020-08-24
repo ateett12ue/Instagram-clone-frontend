@@ -81,7 +81,7 @@ export default function Profile() {
             <h6>{state ? state.following.length : "NA"} Following</h6>
           </div>
         </div>
-        <div className="file-field input-field">
+        {/* <div className="file-field input-field">
           <div className="btn #64b5f6 blue darken-1">
             <span>Upload Profile Image</span>
             <input
@@ -95,7 +95,7 @@ export default function Profile() {
           <div className="file-path-wrapper">
             <input className="file-path validate" type="text" />
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className="gallery">
